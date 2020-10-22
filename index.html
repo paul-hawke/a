@@ -11,12 +11,24 @@
       }
       return bytes.buffer;
     }
+    
+    function importSecretKey(rawKey) {
+      return window.crypto.subtle.importKey(
+        "raw",
+        rawKey,
+        "AES-GCM",
+        true,
+        ["encrypt", "decrypt"]
+      );
+    }
     queryDict = {};
     location.search.substr(1).split("&").forEach(function(item) {queryDict[item.split("=")[0]] = item.split("=")[1]});
-    let key = queryDict["key"];
+    let key = importSecretKey(bb(queryDict["key"]));
     let encrypted = bb(queryDict["raw"]);
     let iv = bb(queryDict["nonce"]);
     
     let result = await crypto.subtle.decrypt({"name": "AES-GCM", "iv": iv}, key, encrypted);
+    
+    console.log(result);
   </script>
 </html>
