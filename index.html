@@ -27,7 +27,7 @@
     let encrypted = bb(queryDict["raw"]);
     let iv = bb(queryDict["nonce"]);
     
-    let result = await crypto.subtle.decrypt({"name": "AES-GCM", "iv": iv}, key, encrypted);
+    let result = crypto.subtle.decrypt({"name": "AES-GCM", "iv": iv}, key, encrypted);
     
     console.log(result);
   </script>
